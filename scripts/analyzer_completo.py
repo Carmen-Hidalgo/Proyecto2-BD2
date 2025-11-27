@@ -462,24 +462,15 @@ save_to_db(artist_diversity, "artist_diversity")
 
 print("=== Análisis 21: Datos faltantes ===")
 
-missing_artists = artists.filter(
-    F.col("artist_name").isNull() | (F.col("artist_name") == "")
-).select("user_id").distinct()
+# Contar usuarios con datos faltantes del archivo users_nulos.parquet
+users_with_missing_data = users.select("user_id").distinct()
+missing_count = users_with_missing_data.agg(
+    F.count("*").alias("users_with_missing_data")
+)
 
-missing_tracks = tracks.filter(
-    F.col("track_name").isNull() | (F.col("track_name") == "") |
-    F.col("artist_name").isNull() | (F.col("artist_name") == "")
-).select("user_id").distinct()
-
-missing_albums = albums.filter(
-    F.col("album_name").isNull() | (F.col("album_name") == "") |
-    F.col("artist_name").isNull() | (F.col("artist_name") == "")
-).select("user_id").distinct()
-
-all_missing_users = missing_artists.union(missing_tracks).union(missing_albums).distinct()
-missing_count = all_missing_users.agg(F.count("*").alias("users_with_missing_data"))
-
+print(f"Total de usuarios con datos faltantes: {missing_count.collect()[0]['users_with_missing_data']}")
 save_to_db(missing_count, "missing_data_count")
+spark.stop()
 
 # ==========================
 # ANÁLISIS 22: USUARIOS ATÍPICOS
