@@ -24,8 +24,6 @@ const home = () => {
       .brand{display:flex; align-items:center; gap:10px; font-weight:600}
         .brand .logo{width:28px; height:28px; border-radius:50%; background:#000; display:inline-block;background-image: url(https://cdn-icons-png.flaticon.com/512/18495/18495588.png);background-size: contain;}        .top-actions{display:flex; gap:10px; align-items:center}
       .top-actions{display:flex; gap:10px; align-items:center}
-      .search-wrap{flex:1; display:flex; gap:8px; align-items:center; max-width:720px; margin:0 12px}
-      .search-wrap input{flex:1}
       .page{ min-height:calc(100vh - 60px); padding:32px; display:flex; justify-content:center }
       .panel{ padding:24px; width:100%; max-width:960px }
       .avatar.small{ width:32px; height:32px; border-radius:50%; display:block; object-fit:cover; }
@@ -65,10 +63,6 @@ const home = () => {
   <body>
     <div class="topbar">
       <div class="brand"><span class="logo" style="background-image:none;background:#5aa9ff;display:flex;align-items:center;justify-content:center;font-size:16px">🎵</span>Music Analytics</div>
-      <div class="search-wrap">
-        <input id="q" class="input" type="text" placeholder="Search artists, songs..." />
-        <button id="go" class="btn icon" title="Search"><span>🔍</span></button>
-      </div>
       <div class="top-actions">
         <a href="/home" class="btn">📊 Dashboard</a>
         <a href="/datasets/new" class="btn">📈 Analytics</a>

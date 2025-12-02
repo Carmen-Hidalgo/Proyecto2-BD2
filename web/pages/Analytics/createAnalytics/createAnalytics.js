@@ -1,4 +1,4 @@
-const createDataset = () => {
+const createAnalytics = () => {
   return `
   <!doctype html>
   <html lang="es">
@@ -405,4 +405,4 @@ const createDataset = () => {
   `;
 };
 
-export default createDataset;
+export default createAnalytics;

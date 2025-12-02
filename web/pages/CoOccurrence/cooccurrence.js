@@ -64,7 +64,6 @@ const cooccurrencePage = () => {
                 <th>Artist 1</th>
                 <th>Artist 2</th>
                 <th style="text-align:right">Co-occurrences</th>
-                <th style="text-align:right">% of Users</th>
               </tr>
             </thead>
             <tbody id="pairsBody">
@@ -159,7 +158,6 @@ const cooccurrencePage = () => {
       
       tbody.innerHTML = '';
       data.forEach((item, index) => {
-        const pct = ((item.cooccurrence_count / TOTAL_USERS) * 100).toFixed(2);
         const tr = document.createElement('tr');
         tr.style.borderBottom = '1px solid var(--line)';
         tr.innerHTML = \`
@@ -167,7 +165,6 @@ const cooccurrencePage = () => {
           <td>\${item.artist1}</td>
           <td>\${item.artist2}</td>
           <td style="text-align:right">\${item.cooccurrence_count.toLocaleString()}</td>
-          <td style="text-align:right; color:#5aa9ff">\${pct}%</td>
         \`;
         tbody.appendChild(tr);
       });
