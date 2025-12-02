@@ -54,7 +54,7 @@ const qualityMetricsPage = () => {
 
         <div class="stat-grid">
           <div class="card stat-card">
-            <div class="stat-label">Data Completeness</div>
+            <div class="stat-label">21. Data Completeness</div>
             <div class="stat-value success" id="completeness">...</div>
             <div class="progress-bar">
               <div class="progress-fill" id="completenessBar" style="width:0%"></div>
@@ -66,12 +66,12 @@ const qualityMetricsPage = () => {
             <div class="muted" id="missingPct">...</div>
           </div>
           <div class="card stat-card">
-            <div class="stat-label">Outlier Users</div>
+            <div class="stat-label">22. Outlier Users</div>
             <div class="stat-value warning" id="outlierUsers">...</div>
             <div class="muted" id="outlierPct">...</div>
           </div>
           <div class="card stat-card">
-            <div class="stat-label">Low Coverage Artists</div>
+            <div class="stat-label">23. Low Coverage Artists</div>
             <div class="stat-value error" id="lowCoverageArtists">...</div>
             <div class="muted">(<5 appearances)</div>
           </div>
@@ -83,7 +83,7 @@ const qualityMetricsPage = () => {
             <canvas id="outliersChart" style="max-height:300px"></canvas>
           </div>
           <div class="card" style="padding:24px">
-            <h3 style="margin:0 0 16px 0">🥇 Artist Diversity (Top 10)</h3>
+            <h3 style="margin:0 0 16px 0">🥇 18. Artist Diversity (Top 10)</h3>
             <canvas id="diversityChart" style="max-height:300px"></canvas>
           </div>
         </div>
@@ -124,7 +124,7 @@ const qualityMetricsPage = () => {
         </div>
 
         <div class="card" style="padding:24px; margin-bottom:24px">
-          <h3 style="margin:0 0 16px 0">🎵 Artist Coverage Analysis</h3>
+          <h3 style="margin:0 0 16px 0">🎵 19. Artist Coverage Analysis</h3>
           <p class="muted" style="margin-bottom:16px">Distribution of artist appearances</p>
           <div id="coverageSummary" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(240px,1fr)); gap:24px; margin-bottom:16px">
             <div style="padding:8px; color:var(--muted)">Loading...</div>
@@ -132,7 +132,7 @@ const qualityMetricsPage = () => {
         </div>
 
         <div class="card" style="padding:24px">
-          <h3 style="margin:0 0 16px 0">🎯 Top 20 Artists with Highest Diversity</h3>
+          <h3 style="margin:0 0 16px 0">🎯 20. Top 20 Artists with Highest Diversity</h3>
           <p class="muted" style="margin-bottom:16px">Artists with most unique users and distinct songs</p>
           <table class="table">
             <thead>

@@ -55,7 +55,7 @@ const cooccurrencePage = () => {
         </div>
 
         <div class="card" style="padding:24px; margin-bottom:24px">
-          <h3 style="margin:0 0 16px 0">👥 Top 50 Artist Pairs</h3>
+          <h3 style="margin:0 0 16px 0">👥 11. Top 50 Artist Pairs</h3>
           <p class="muted" style="margin-bottom:16px">Most frequently co-occurring artist combinations</p>
           <table class="table">
             <thead>
@@ -73,7 +73,7 @@ const cooccurrencePage = () => {
         </div>
 
         <div class="card" style="padding:24px; margin-bottom:24px">
-          <h3 style="margin:0 0 16px 0">🎯 Top Artist Triplets</h3>
+          <h3 style="margin:0 0 16px 0">🎯 12. Top Artist Triplets</h3>
           <p class="muted" style="margin-bottom:16px">Most common 3-artist combinations</p>
           <table class="table">
             <thead>
@@ -93,7 +93,7 @@ const cooccurrencePage = () => {
 
         <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(320px,1fr)); gap:20px; margin-bottom:24px">
           <div class="card" style="padding:24px">
-            <h3 style="margin:0 0 16px 0">📊 Position Metrics</h3>
+            <h3 style="margin:0 0 16px 0">📊 13, 15 & 16. Position Metrics</h3>
             <div style="display:grid; gap:12px" id="positionMetrics">
               <div style="padding:8px; color:var(--muted)">Loading...</div>
             </div>
@@ -106,16 +106,16 @@ const cooccurrencePage = () => {
         </div>
 
         <div class="card" style="padding:24px">
-          <h3 style="margin:0 0 16px 0">📈 Average Position by Artist (Top 20)</h3>
+          <h3 style="margin:0 0 16px 0">📈 14. Average Position by Artists in the Most Lists (Top 50)</h3>
           <p class="muted" style="margin-bottom:16px">Lower is better - indicates higher average ranking</p>
           <table class="table">
             <thead>
               <tr>
                 <th>#</th>
                 <th>Artist</th>
-                <th style="text-align:right">Avg Position</th>
-                <th style="text-align:right">Appearances</th>
-                <th style="text-align:right">Diversity Score</th>
+                <th style="text-align:right">In User Lists</th>
+                <th style="text-align:right">Percentage of Users</th>
+                <th style="text-align:right">Average Position</th>
               </tr>
             </thead>
             <tbody id="avgPositionBody">
@@ -336,48 +336,57 @@ const cooccurrencePage = () => {
 
     async function loadAvgPosition() {
       const tbody = $('avgPositionBody');
-      const posData = await apiGet("/api/analytics/avg-artist-position");
-      const divData = await apiGet("/api/analytics/artist-diversity");
       
-      if (!posData || posData.length === 0) {
+      // Obtener datos del endpoint nuevo
+      const data = await apiGet("/api/analytics/top-50-artists-with-avg-rank");
+      
+      if (!data || data.length === 0) {
         tbody.innerHTML = '<tr><td colspan="5" style="text-align:center; padding:20px; color:#ff6b6b">No data available</td></tr>';
         return;
       }
       
-      // Create map of diversity data
-      const diversityMap = {};
-      if (divData) {
-        divData.forEach(item => {
-          diversityMap[item.artist_name] = item.unique_tracks || 0;
-        });
-      }
-      
       tbody.innerHTML = '';
-      posData.forEach((item, index) => {
+      
+      data.forEach(function(item, index) {
         const tr = document.createElement('tr');
         tr.style.borderBottom = '1px solid var(--line)';
-        const tracks = diversityMap[item.artist_name] || '-';
-        tr.innerHTML = \`
-          <td>\${index + 1}</td>
-          <td>\${item.artist_name}</td>
-          <td style="text-align:right; color:#5aa9ff">\${parseFloat(item.avg_rank).toFixed(1)}</td>
-          <td style="text-align:right">-</td>
-          <td style="text-align:right">\${tracks !== '-' ? tracks + ' songs' : '-'}</td>
-        \`;
+        
+        const avgRank = parseFloat(item.avg_rank);
+        const userCount = item.user_count || 0;
+        const pctUsers = (item.percentage_users != null)
+          ? parseFloat(item.percentage_users)
+          : null;
+        
+        tr.innerHTML =
+          '<td>' + (index + 1) + '</td>' +
+          '<td>' + item.artist_name + '</td>' +
+          '<td style="text-align:right">' + userCount.toLocaleString() + '</td>' +
+          '<td style="text-align:right">' +
+            (pctUsers !== null ? pctUsers.toFixed(2) + '%' : '-') +
+          '</td>' +
+          '<td style="text-align:right; color:#5aa9ff">' +
+            (isNaN(avgRank) ? '-' : avgRank.toFixed(1)) +
+          '</td>';
+        
         tbody.appendChild(tr);
       });
 
-      // Create scatter plot
+      // === Scatter plot: x = avg_rank, y = percentage_users ===
       const ctx = $('positionScatterChart').getContext('2d');
-      if (scatterChart) scatterChart.destroy();
-      
-      const top20 = posData.slice(0, 20);
-      const scatterData = top20.map(item => ({
-        x: parseFloat(item.avg_rank),
-        y: diversityMap[item.artist_name] || 0,
-        label: item.artist_name
-      }));
-      
+      if (scatterChart) {
+        scatterChart.destroy();
+      }
+
+      const scatterData = data.map(function(item) {
+        return {
+          x: parseFloat(item.avg_rank),
+          y: parseFloat(item.percentage_users),
+          label: item.artist_name
+        };
+      }).filter(function(point) {
+        return !isNaN(point.x) && !isNaN(point.y);
+      });
+
       scatterChart = new Chart(ctx, {
         type: 'scatter',
         data: {
@@ -400,7 +409,9 @@ const cooccurrencePage = () => {
               callbacks: {
                 label: function(context) {
                   const point = context.raw;
-                  return point.label + ': Avg Rank ' + point.x.toFixed(1) + ', ' + point.y + ' songs';
+                  return point.label +
+                        ': Avg Rank ' + point.x.toFixed(1) +
+                        ', ' + point.y.toFixed(2) + '% of users';
                 }
               }
             }
@@ -418,7 +429,7 @@ const cooccurrencePage = () => {
             y: { 
               title: {
                 display: true,
-                text: 'Unique Songs',
+                text: 'Percentage of Users',
                 color: '#9fb0c8'
               },
               beginAtZero: true,

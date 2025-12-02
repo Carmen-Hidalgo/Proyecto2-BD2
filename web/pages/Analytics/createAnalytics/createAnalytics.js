@@ -122,7 +122,7 @@ const createAnalytics = () => {
         <!-- Main Content -->
         <section class="grid" style="gap:24px">
           <div class="card panel">
-            <h2 style="margin:0 0 16px 0">🎤 Top 20 Artists</h2>
+            <h2 style="margin:0 0 16px 0">🎤 1. Top 20 Artists</h2>
             <p class="muted" style="margin-bottom:16px">Most popular artists by user mentions</p>
             <div id="topArtists">
               <table class="table" style="width:100%; border-collapse:collapse">
@@ -142,7 +142,7 @@ const createAnalytics = () => {
           </div>
 
           <div class="card panel">
-            <h2 style="margin:0 0 16px 0">🎵 Top 20 Songs</h2>
+            <h2 style="margin:0 0 16px 0">🎵 2. Top 20 Songs</h2>
             <p class="muted" style="margin-bottom:16px">Most listened tracks across all users</p>
             <div id="topSongs">
               <table class="table" style="width:100%; border-collapse:collapse">
@@ -162,7 +162,7 @@ const createAnalytics = () => {
           </div>
 
           <div class="card panel">
-            <h2 style="margin:0 0 16px 0">💿 Top 20 Albums</h2>
+            <h2 style="margin:0 0 16px 0">💿 3. Top 20 Albums</h2>
             <p class="muted" style="margin-bottom:16px">Most popular albums in the dataset</p>
             <div id="topAlbums">
               <table class="table" style="width:100%; border-collapse:collapse">
@@ -183,12 +183,12 @@ const createAnalytics = () => {
 
           <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(320px,1fr)); gap:20px">
             <div class="card panel">
-              <h3 style="margin:0 0 12px 0">📊 Top 10 Artists Chart</h3>
+              <h3 style="margin:0 0 12px 0">📊 4. Top 10 Artists Chart</h3>
               <canvas id="topArtistsChart" style="max-height:300px"></canvas>
             </div>
 
             <div class="card panel">
-              <h3 style="margin:0 0 12px 0">📊 Distribution Metrics</h3>
+              <h3 style="margin:0 0 12px 0">📊 5. Distribution Metrics</h3>
               <div class="grid" style="gap:12px">
                 <div style="display:flex; justify-content:space-between; padding:8px; border-bottom:1px solid var(--line)">
                   <span class="muted">Mean mentions/artist:</span>
@@ -210,7 +210,7 @@ const createAnalytics = () => {
             </div>
 
             <div class="card panel">
-              <h3 style="margin:0 0 12px 0">📉 Long Tail Analysis</h3>
+              <h3 style="margin:0 0 12px 0">📉 6. Long Tail Analysis</h3>
               <div class="grid" style="gap:12px">
                 <div style="display:flex; justify-content:space-between; padding:8px; border-bottom:1px solid var(--line)">
                   <span class="muted">Artists for 80% coverage:</span>

@@ -77,25 +77,25 @@ const home = () => {
         <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:20px; margin-bottom:32px">
           <div class="card" style="padding:20px; cursor:pointer" onclick="location.href='/datasets/new'">
             <div style="font-size:2rem; margin-bottom:8px">🎤</div>
-            <h3 style="margin:0 0 8px 0">Popularity Analysis</h3>
+            <h3 style="margin:0 0 8px 0">Popularity Analysis: 1-6</h3>
             <p class="muted" style="font-size:0.9rem; margin:0">Top 20 artists, songs, albums and distribution metrics</p>
           </div>
 
           <div class="card" style="padding:20px; cursor:pointer" onclick="location.href='/userstats'">
             <div style="font-size:2rem; margin-bottom:8px">👥</div>
-            <h3 style="margin:0 0 8px 0">User Statistics</h3>
+            <h3 style="margin:0 0 8px 0">User Statistics: 7-10</h3>
             <p class="muted" style="font-size:0.9rem; margin:0">Items per user, unique counts, and listening patterns</p>
           </div>
 
           <div class="card" style="padding:20px; cursor:pointer" onclick="location.href='/cooccurrence'">
             <div style="font-size:2rem; margin-bottom:8px">🔗</div>
-            <h3 style="margin:0 0 8px 0">Co-occurrence Analysis</h3>
+            <h3 style="margin:0 0 8px 0">Co-occurrence Analysis: 11-16</h3>
             <p class="muted" style="font-size:0.9rem; margin:0">Artist pairs, triplets, and position correlations</p>
           </div>
 
           <div class="card" style="padding:20px; cursor:pointer" onclick="location.href='/quality'">
             <div style="font-size:2rem; margin-bottom:8px">⚡</div>
-            <h3 style="margin:0 0 8px 0">Quality Metrics</h3>
+            <h3 style="margin:0 0 8px 0">Quality Metrics: 18-23</h3>
             <p class="muted" style="font-size:0.9rem; margin:0">Data completeness, outliers, and coverage analysis</p>
           </div>
         </div>
@@ -318,6 +318,5 @@ const home = () => {
   </html>
   `;
 };
-
 
 export default home;

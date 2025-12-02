@@ -195,10 +195,10 @@ app.get("/api/analytics/artist-track-overlap", async (req, res) => {
   }
 });
 
-app.get("/api/analytics/avg-artist-position", async (req, res) => {
+app.get("/api/analytics/top-50-artists-with-avg-rank", async (req, res) => {
   try {
     const [rows] = await db.query(
-      "SELECT * FROM avg_artist_position ORDER BY avg_rank ASC LIMIT 30"
+      "SELECT * FROM top_50_artists_with_avg_rank ORDER BY avg_rank ASC LIMIT 50"
     );
     res.json(rows);
   } catch (error) {

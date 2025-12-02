@@ -54,22 +54,22 @@ const userStatsPage = () => {
             <div class="stat-value" id="totalUsers">500,000</div>
           </div>
           <div class="card stat-card">
-            <div class="stat-label">Unique Artists</div>
+            <div class="stat-label">8.1. Unique Artists</div>
             <div class="stat-value" id="uniqueArtists">40,732</div>
           </div>
           <div class="card stat-card">
-            <div class="stat-label">Unique Songs</div>
+            <div class="stat-label">8.2. Unique Songs</div>
             <div class="stat-value" id="uniqueSongs">287,456</div>
           </div>
           <div class="card stat-card">
-            <div class="stat-label">Unique Albums</div>
+            <div class="stat-label">8.3. Unique Albums</div>
             <div class="stat-value" id="uniqueAlbums">89,234</div>
           </div>
         </div>
 
         <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(450px,1fr)); gap:20px; margin-bottom:24px">
           <div class="card" style="padding:24px">
-            <h3 style="margin:0 0 16px 0">📊 Items Per User - Mean vs Median</h3>
+            <h3 style="margin:0 0 16px 0">📊 7. Items Per User - Mean vs Median</h3>
             <canvas id="itemsPerUserChart" style="max-height:300px"></canvas>
           </div>
           <div class="card" style="padding:24px">
@@ -79,7 +79,7 @@ const userStatsPage = () => {
         </div>
 
         <div class="card" style="padding:24px; margin-bottom:24px">
-          <h3 style="margin:0 0 16px 0">📈 User Behavior Metrics</h3>
+          <h3 style="margin:0 0 16px 0">📈 10. User Behavior Metrics</h3>
           <table class="table">
             <thead>
               <tr>
@@ -95,7 +95,7 @@ const userStatsPage = () => {
         </div>
 
         <div class="card" style="padding:24px">
-          <h3 style="margin:0 0 16px 0">🔍 Most Common Top-3 Identical Lists</h3>
+          <h3 style="margin:0 0 16px 0">🔍 9. Most Common Top-3 Identical Lists</h3>
           <p class="muted" style="margin-bottom:16px">Users sharing identical top-3 artist lists</p>
           <canvas id="top3DuplicatesChart" style="max-height:350px"></canvas>
         </div>
