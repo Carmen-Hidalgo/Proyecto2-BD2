@@ -103,16 +103,17 @@ print("=== Análisis 4: Artista principal por usuario ===")
 
 user_top_artist = artists.filter(F.col("rank") == 1) \
     .groupBy("artist_name") \
-    .agg(F.count("*").alias("user_count")) \
-    .orderBy(F.desc("user_count"))
+    .agg(F.count("*").alias("frequency")) \
+    .withColumnRenamed("artist_name", "top_artist") \
+    .orderBy(F.desc("frequency"))
 
-most_common_artist = user_top_artist.first()
-mode_result = spark.createDataFrame([(
-    most_common_artist["artist_name"],
-    most_common_artist["user_count"]
-)], ["top_artist", "frequency"])
+# Guardar la lista completa de artistas con sus frecuencias
+save_to_db(user_top_artist, "users_share_top_artist")
 
-save_to_db(mode_result, "users_share_top_artist")
+# Mostrar la moda (artista más común)
+mode_data = user_top_artist.first()
+if mode_data:
+    print(f"📊 Moda: {mode_data['top_artist']} con {mode_data['frequency']} usuarios")
 
 # ==========================
 # ANÁLISIS 5: DISTRIBUCIÓN DE MENCIONES POR ARTISTA

@@ -99,10 +99,7 @@ const cooccurrencePage = () => {
             </div>
           </div>
 
-          <div class="card" style="padding:24px">
-            <h3 style="margin:0 0 16px 0">🎼 Cross-List Popularity</h3>
-            <canvas id="crossPopularityChart" style="max-height:250px"></canvas>
-          </div>
+          
         </div>
 
         <div class="card" style="padding:24px">
@@ -237,20 +234,15 @@ const cooccurrencePage = () => {
 
     async function loadPositionMetrics() {
       const container = $('positionMetrics');
-      
-      const stability = await apiGet("/api/analytics/position-stability");
+
       const overlap = await apiGet("/api/analytics/artist-track-overlap");
       const top1InTop5 = await apiGet("/api/analytics/top1-in-top5");
       
+      const stability = await apiGet("/api/analytics/position-stability");
+      
       let html = '';
       
-      if (stability) {
-        const count = stability.stable_users_count || 0;
-        html += \`<div style="display:flex; justify-content:space-between; padding:8px; border-bottom:1px solid var(--line)">
-          <span class="muted">Users with same #1 & #2:</span>
-          <strong>\${count.toLocaleString()}</strong>
-        </div>\`;
-      }
+      
       
       if (overlap) {
         const count = overlap.overlap_count || 0;
@@ -264,9 +256,17 @@ const cooccurrencePage = () => {
       if (top1InTop5 && top1InTop5.percentage !== undefined) {
         const count = top1InTop5.matching_users || 0;
         const pct = parseFloat(top1InTop5.percentage || 0).toFixed(1);
-        html += \`<div style="display:flex; justify-content:space-between; padding:8px">
+        html += \`<div style="display:flex; justify-content:space-between; padding:8px; border-bottom:1px solid var(--line)">
           <span class="muted">#1 in global top 5:</span>
           <strong>\${count.toLocaleString()} (\${pct}%)</strong>
+        </div>\`;
+      }
+
+      if (stability) {
+        const count = stability.stable_users_count || 0;
+        html += \`<div style="display:flex; justify-content:space-between; padding:8px; border-bottom:1px solid var(--line)">
+          <span class="muted">Users with same #1 & #2:</span>
+          <strong>\${count.toLocaleString()}</strong>
         </div>\`;
       }
       

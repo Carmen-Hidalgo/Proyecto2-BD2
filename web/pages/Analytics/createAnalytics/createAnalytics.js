@@ -183,14 +183,31 @@ const createAnalytics = () => {
 
           <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(320px,1fr)); gap:20px">
             <div class="card panel">
-              <h3 style="margin:0 0 12px 0">📊 4. Top 10 Artists Chart</h3>
-              <canvas id="topArtistsChart" style="max-height:300px"></canvas>
+              <h3 style="margin:0 0 12px 0">📊 4. Users Sharing #1 Artist</h3>
+              <p class="muted" style="margin-bottom:16px; font-size:0.85rem">Distribution of users by their top artist</p>
+              <table class="table" style="width:100%; border-collapse:collapse">
+                <thead>
+                  <tr style="border-bottom:1px solid var(--line)">
+                    <th style="padding:8px; text-align:left">Artist</th>
+                    <th style="padding:8px; text-align:right">Users</th>
+                  </tr>
+                </thead>
+                <tbody id="topArtistSharedBody">
+                  <tr><td colspan="2" style="padding:20px; text-align:center; color:var(--muted)">Loading...</td></tr>
+                </tbody>
+              </table>
+              <div style="margin-top:12px; padding-top:12px; border-top:1px solid var(--line)">
+                <div style="display:flex; justify-content:space-between; padding:4px">
+                  <span class="muted" style="font-size:0.9rem">Most common #1:</span>
+                  <strong id="commonArtist" style="font-size:0.9rem">-</strong>
+                </div>
+              </div>
             </div>
 
             <div class="card panel">
-              <h3 style="margin:0 0 12px 0">📊 5. Distribution Metrics</h3>
-              <div class="grid" style="gap:12px">
-                <div style="display:flex; justify-content:space-between; padding:8px; border-bottom:1px solid var(--line)">
+              <h3 style="margin:0 0 12px 0">📊 5. Top 10 Artists Chart</h3>
+              <canvas id="topArtistsChart" style="max-height:300px"></canvas>
+              <div style="display:flex; justify-content:space-between; padding:8px; border-bottom:1px solid var(--line)">
                   <span class="muted">Mean mentions/artist:</span>
                   <strong id="meanMentions">-</strong>
                 </div>
@@ -202,11 +219,6 @@ const createAnalytics = () => {
                   <span class="muted">Std. Deviation:</span>
                   <strong id="stdDeviation">-</strong>
                 </div>
-                <div style="display:flex; justify-content:space-between; padding:8px">
-                  <span class="muted">Most common #1 artist:</span>
-                  <strong id="commonArtist" style="font-size:0.9rem">-</strong>
-                </div>
-              </div>
             </div>
 
             <div class="card panel">
@@ -224,6 +236,7 @@ const createAnalytics = () => {
                   <span class="muted">Total unique artists:</span>
                   <strong id="totalArtists">-</strong>
                 </div>
+                <canvas id="longTailChart" style="max-height:300px"></canvas>
               </div>
             </div>
           </div>
@@ -234,6 +247,7 @@ const createAnalytics = () => {
         (function(){
           var API = "http://localhost:3000";
           let topArtistsChart = null;
+          let longTailChart = null;
 
           function $(id){ return document.getElementById(id) }
           function setText(id, v){ var el=$(id); if(el) el.textContent=v }
@@ -370,14 +384,66 @@ const createAnalytics = () => {
               setText("stdDeviation", parseFloat(distribution.stddev).toFixed(2));
             }
             
+            // Load top artist shared table
             if (topArtistShared && topArtistShared.length > 0) {
+              const tbody = $("topArtistSharedBody");
+              tbody.innerHTML = "";
+              
+              topArtistShared.slice(0, 10).forEach((item) => {
+                const tr = document.createElement("tr");
+                tr.style.borderBottom = "1px solid var(--line)";
+                tr.innerHTML = \`
+                  <td style="padding:8px">\${item.top_artist}</td>
+                  <td style="padding:8px; text-align:right; color:#5aa9ff">\${item.frequency.toLocaleString()}</td>
+                \`;
+                tbody.appendChild(tr);
+              });
+              
+              // Update mode summary
               const top = topArtistShared[0];
-              setText("commonArtist", \`\${top.top_artist} (\${top.frequency} users)\`);
+              setText("commonArtist", \`\${top.top_artist} (\${top.frequency.toLocaleString()} users)\`);
             }
             
             if (longTail) {
+            
               setText("longTailCount", (longTail.artists_count || 0).toLocaleString());
               setText("longTailPercent", (longTail.percentage_artists || 0).toFixed(2) + '%');
+              
+              // Long Tail Chart
+              const ctx = $('longTailChart').getContext('2d');
+              if (longTailChart) longTailChart.destroy();
+              const coveragePercent = parseFloat(longTail.percentage_artists || 0);
+              const remainingPercent = 100 - coveragePercent;
+              
+              longTailChart = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                  labels: ['80% Mentions Coverage', 'Remaining Artists'],
+                  datasets: [{
+                    data: [coveragePercent, remainingPercent],
+                    backgroundColor: ['rgba(90, 169, 255, 0.8)', 'rgba(159, 176, 200, 0.3)'],
+                    borderColor: ['rgba(90, 169, 255, 1)', 'rgba(159, 176, 200, 0.5)'],
+                    borderWidth: 1
+                  }]
+                },
+                options: {
+                  responsive: true,
+                  maintainAspectRatio: true,
+                  plugins: {
+                    legend: { 
+                      display: true,
+                      labels: { color: '#9fb0c8' }
+                    },
+                    tooltip: {
+                      callbacks: {
+                        label: function(context) {
+                          return context.label + ': ' + context.parsed.toFixed(1) + '%';
+                        }
+                      }
+                    }
+                  }
+                }
+              });
             }
             
             if (uniqueCounts) {
@@ -386,7 +452,7 @@ const createAnalytics = () => {
           }
 
           $("btnHome").addEventListener("click", function(){ window.location.href = "/home" });
-
+          
           // Load all data
           Promise.all([
             loadTopArtists(),

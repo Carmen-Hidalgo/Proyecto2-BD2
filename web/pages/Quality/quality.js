@@ -51,7 +51,7 @@ const qualityMetricsPage = () => {
       <main class="panel">
         <h1 style="margin:0 0 8px 0">⚡ Data Quality & Completeness Analysis</h1>
         <p class="muted" style="margin-bottom:32px">Assessment of dataset integrity and outlier detection</p>
-
+        
         <div class="stat-grid">
           <div class="card stat-card">
             <div class="stat-label">21. Data Completeness</div>
@@ -61,15 +61,11 @@ const qualityMetricsPage = () => {
             </div>
           </div>
           <div class="card stat-card">
-            <div class="stat-label">Users with Missing Data</div>
+            <div class="stat-label">21. Users with Missing Data</div>
             <div class="stat-value warning" id="missingUsers">...</div>
             <div class="muted" id="missingPct">...</div>
           </div>
-          <div class="card stat-card">
-            <div class="stat-label">22. Outlier Users</div>
-            <div class="stat-value warning" id="outlierUsers">...</div>
-            <div class="muted" id="outlierPct">...</div>
-          </div>
+          
           <div class="card stat-card">
             <div class="stat-label">23. Low Coverage Artists</div>
             <div class="stat-value error" id="lowCoverageArtists">...</div>
@@ -77,61 +73,34 @@ const qualityMetricsPage = () => {
           </div>
         </div>
 
-        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(450px,1fr)); gap:20px; margin-bottom:24px">
-          <div class="card" style="padding:24px">
-            <h3 style="margin:0 0 16px 0">📈 Outlier Users Distribution</h3>
-            <canvas id="outliersChart" style="max-height:300px"></canvas>
-          </div>
-          <div class="card" style="padding:24px">
-            <h3 style="margin:0 0 16px 0">🥇 18. Artist Diversity (Top 10)</h3>
-            <canvas id="diversityChart" style="max-height:300px"></canvas>
-          </div>
-        </div>
-
-        <div class="card" style="padding:24px; margin-bottom:24px">
-          <h3 style="margin:0 0 16px 0">📋 Missing Data Breakdown</h3>
-          <table class="table">
-            <thead>
-              <tr>
-                <th>Field</th>
-                <th style="text-align:right">Missing Count</th>
-                <th style="text-align:right">Percentage</th>
-                <th>Status</th>
-              </tr>
-            </thead>
-            <tbody id="missingDataBody">
-              <tr><td colspan="4" style="text-align:center; padding:20px; color:var(--muted)">Loading data...</td></tr>
-            </tbody>
-          </table>
-        </div>
-
-        <div class="card" style="padding:24px; margin-bottom:24px">
-          <h3 style="margin:0 0 16px 0">📊 Outlier Detection (99th Percentile)</h3>
-          <p class="muted" style="margin-bottom:16px">Users with extreme high or low activity</p>
-          <table class="table">
-            <thead>
-              <tr>
-                <th>Metric</th>
-                <th style="text-align:right">99th %ile Value</th>
-                <th style="text-align:right">Outlier Count</th>
-                <th>Type</th>
-              </tr>
-            </thead>
-            <tbody id="outliersBody">
-              <tr><td colspan="4" style="text-align:center; padding:20px; color:var(--muted)">Loading data...</td></tr>
-            </tbody>
-          </table>
-        </div>
-
-        <div class="card" style="padding:24px; margin-bottom:24px">
-          <h3 style="margin:0 0 16px 0">🎵 19. Artist Coverage Analysis</h3>
-          <p class="muted" style="margin-bottom:16px">Distribution of artist appearances</p>
-          <div id="coverageSummary" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(240px,1fr)); gap:24px; margin-bottom:16px">
-            <div style="padding:8px; color:var(--muted)">Loading...</div>
+        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(320px,1fr)); gap:20px; margin-bottom:24px">
+        <div class="card panel">
+            <h2 style="margin:0 0 16px 0">🎧 18. Top Artists Between Listeners</h2>
+            <div id="topArtistsBetweenListeners">
+              <table class="table" style="width:100%; border-collapse:collapse">
+                <thead>
+                  <tr style="border-bottom:1px solid var(--line)">
+                    <th style="padding:12px; text-align:left">#</th>
+                    <th style="padding:12px; text-align:left">Artist</th>
+                    <th style="padding:12px; text-align:right">Count</th>
+                  </tr>
+                </thead>
+                <tbody id="topArtistsBetweenListenersBody">
+                  <tr><td colspan="3" style="padding:20px; text-align:center; color:var(--muted)">Loading...</td></tr>
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
 
+        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(320px,1fr)); gap:20px; margin-bottom:24px">
         <div class="card" style="padding:24px">
+            <h3 style="margin:0 0 16px 0">19. 🎼 Cross-List Popularity</h3>
+            <canvas id="crossPopularityChart" style="max-height:250px"></canvas>
+        </div>
+        </div>
+
+        <div class="card" style="padding:24px; margin-bottom:24px">
           <h3 style="margin:0 0 16px 0">🎯 20. Top 20 Artists with Highest Diversity</h3>
           <p class="muted" style="margin-bottom:16px">Artists with most unique users and distinct songs</p>
           <table class="table">
@@ -148,14 +117,57 @@ const qualityMetricsPage = () => {
               <tr><td colspan="5" style="text-align:center; padding:20px; color:var(--muted)">Loading data...</td></tr>
             </tbody>
           </table>
+
+          <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(450px,1fr)); gap:20px; margin-bottom:24px">
+          
+          <div class="card" style="padding:24px">
+            
+            <canvas id="diversityChart" style="max-height:300px"></canvas>
+          </div>
+          </div>
         </div>
 
-        <div class="card" style="padding:24px; margin-top:24px; border-left:4px solid #5aa9ff">
-          <h3 style="margin:0 0 12px 0">💡 Data Quality Summary</h3>
-          <ul id="qualitySummary" style="margin:0; padding-left:20px; line-height:1.8">
-            <li style="color:var(--muted)">Loading summary...</li>
-          </ul>
+        
+        <div class="card" style="padding:24px; margin-bottom:24px">
+          <h3 style="margin:0 0 16px 0">📋 21. Missing Data Breakdown</h3>
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Field</th>
+                <th style="text-align:right">Missing Count</th>
+                <th style="text-align:right">Percentage</th>
+                
+              </tr>
+            </thead>
+            <tbody id="missingDataBody">
+              <tr><td colspan="3" style="text-align:center; padding:20px; color:var(--muted)">Loading data...</td></tr>
+            </tbody>
+          </table>
         </div>
+
+        <div class="card" style="padding:24px; margin-bottom:24px">
+          <h3 style="margin:0 0 16px 0">📊 22. Outlier Detection (99th Percentile)</h3>
+          <p class="muted" style="margin-bottom:16px">Users with extreme high or low activity</p>
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Metric</th>
+                <th style="text-align:right">99th %ile Value</th>
+                <th style="text-align:right">Outlier Count</th>
+                <th>Type</th>
+              </tr>
+            </thead>
+            <tbody id="outliersBody">
+              <tr><td colspan="4" style="text-align:center; padding:20px; color:var(--muted)">Loading data...</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        
+
+        
+
+        
       </main>
     </div>
 
@@ -164,9 +176,9 @@ const qualityMetricsPage = () => {
     var API = "http://localhost:3000";
     const TOTAL_USERS = 500000;
     
-    let outliersChart = null;
+    
     let diversityChart = null;
-
+    let crossPopChart = null;
     function $(id){ return document.getElementById(id); }
     function setText(id, txt){ var el=$(id); if(el) el.textContent = txt; }
     
@@ -178,6 +190,84 @@ const qualityMetricsPage = () => {
         console.error('API Error:', error);
         return null;
       }
+    }
+
+    async function loadCrossPopularity() {
+      const data = await apiGet("/api/analytics/cross-popularity");
+      
+      if (!data || data.length === 0) return;
+      
+      const top10 = data.slice(0, 10);
+      const ctx = $('crossPopularityChart').getContext('2d');
+      if (crossPopChart) crossPopChart.destroy();
+      
+      crossPopChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: top10.map(item => item.artist_name),
+          datasets: [
+            {
+              label: 'Track List Count',
+              data: top10.map(item => item.track_list_count),
+              backgroundColor: 'rgba(90, 169, 255, 0.8)',
+              borderColor: 'rgba(90, 169, 255, 1)',
+              borderWidth: 1
+            },
+            {
+              label: 'Artist List Count',
+              data: top10.map(item => item.artist_list_count),
+              backgroundColor: 'rgba(159, 176, 200, 0.8)',
+              borderColor: 'rgba(159, 176, 200, 1)',
+              borderWidth: 1
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: true,
+          plugins: {
+            legend: { 
+              display: true,
+              labels: { color: '#9fb0c8', font: { size: 10 } }
+            }
+          },
+          scales: {
+            y: { 
+              beginAtZero: true,
+              ticks: { color: '#9fb0c8' },
+              grid: { color: '#2a3340' }
+            },
+            x: { 
+              ticks: { 
+                color: '#9fb0c8',
+                maxRotation: 45,
+                minRotation: 45,
+                font: { size: 9 }
+              },
+              grid: { color: '#2a3340' }
+            }
+          }
+        }
+      });
+    }
+    async function loadTopArtistsBetweenListeners() {
+      const data = await apiGet("/api/analytics/active-listeners");
+      
+      if (!data || data.length === 0) return;
+      
+      const tbody = $('topArtistsBetweenListenersBody');
+      tbody.innerHTML = '';
+      
+      data.slice(0, 20).forEach((item, index) => {
+        const tr = document.createElement('tr');
+        tr.style.borderBottom = '1px solid var(--line)';
+        tr.innerHTML = \`
+          <td style="padding:12px; font-weight:600">\${index + 1}</td>
+          <td style="padding:12px">\${item.artist_name}</td>
+          <td style="padding:12px; text-align:right; color:#5aa9ff">\${item.listener_count.toLocaleString()}</td>
+        \`;
+        tbody.appendChild(tr);
+      });
     }
 
     async function loadQualityStats() {
@@ -205,58 +295,9 @@ const qualityMetricsPage = () => {
         const total = high + low;
         const pct = ((total / TOTAL_USERS) * 100).toFixed(1);
         
-        setText('outlierUsers', total.toLocaleString());
-        setText('outlierPct', '(' + pct + '% of total)');
+       
         
-        // Create outliers chart
-        const ctx = $('outliersChart').getContext('2d');
-        if (outliersChart) outliersChart.destroy();
         
-        outliersChart = new Chart(ctx, {
-          type: 'bar',
-          data: {
-            labels: ['High Activity', 'Low Activity', 'Normal Users'],
-            datasets: [{
-              label: 'User Count',
-              data: [high, low, TOTAL_USERS - total],
-              backgroundColor: [
-                'rgba(255, 153, 102, 0.8)',
-                'rgba(255, 107, 107, 0.8)',
-                'rgba(90, 169, 255, 0.8)'
-              ],
-              borderColor: [
-                'rgba(255, 153, 102, 1)',
-                'rgba(255, 107, 107, 1)',
-                'rgba(90, 169, 255, 1)'
-              ],
-              borderWidth: 1
-            }]
-          },
-          options: {
-            responsive: true,
-            maintainAspectRatio: true,
-            plugins: {
-              legend: { display: false }
-            },
-            scales: {
-              y: { 
-                beginAtZero: true,
-                ticks: { 
-                  color: '#9fb0c8',
-                  callback: function(value) {
-                    if (value >= 1000) return (value / 1000).toFixed(0) + 'K';
-                    return value;
-                  }
-                },
-                grid: { color: '#2a3340' }
-              },
-              x: { 
-                ticks: { color: '#9fb0c8' },
-                grid: { color: '#2a3340' }
-              }
-            }
-          }
-        });
         
         // Update outliers table
         const tbody = $('outliersBody');
@@ -316,7 +357,7 @@ const qualityMetricsPage = () => {
             <td>Total Missing Data</td>
             <td style="text-align:right">\${count.toLocaleString()}</td>
             <td style="text-align:right">\${pct}%</td>
-            <td><span class="\${pct < 5 ? 'success' : 'warning'}">\${pct < 5 ? '✓ Good' : '⚠ Review'}</span></td>
+            
           </tr>
         \`;
       }
@@ -439,8 +480,10 @@ const qualityMetricsPage = () => {
     document.getElementById("btnHome").addEventListener("click", function(){
       window.location.href = "/home";
     });
-
+    
     loadQualityStats();
+    loadCrossPopularity();
+    loadTopArtistsBetweenListeners();
   })();
   </script>
   </body>

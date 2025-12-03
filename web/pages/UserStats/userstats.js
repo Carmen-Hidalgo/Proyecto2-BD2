@@ -72,12 +72,13 @@ const userStatsPage = () => {
             <h3 style="margin:0 0 16px 0">📊 7. Items Per User - Mean vs Median</h3>
             <canvas id="itemsPerUserChart" style="max-height:300px"></canvas>
           </div>
-          <div class="card" style="padding:24px">
-            <h3 style="margin:0 0 16px 0">🎯 User Behavior Patterns</h3>
-            <canvas id="behaviorPatternsChart" style="max-height:300px"></canvas>
-          </div>
+          
         </div>
-
+        <div class="card" style="padding:24px">
+          <h3 style="margin:0 0 16px 0">🔍 9. Most Common Top-3 Identical Lists</h3>
+          <p class="muted" style="margin-bottom:16px">Users sharing identical top-3 artist lists</p>
+          <canvas id="top3DuplicatesChart" style="max-height:350px"></canvas>
+        </div>
         <div class="card" style="padding:24px; margin-bottom:24px">
           <h3 style="margin:0 0 16px 0">📈 10. User Behavior Metrics</h3>
           <table class="table">
@@ -94,11 +95,7 @@ const userStatsPage = () => {
           </table>
         </div>
 
-        <div class="card" style="padding:24px">
-          <h3 style="margin:0 0 16px 0">🔍 9. Most Common Top-3 Identical Lists</h3>
-          <p class="muted" style="margin-bottom:16px">Users sharing identical top-3 artist lists</p>
-          <canvas id="top3DuplicatesChart" style="max-height:350px"></canvas>
-        </div>
+        
       </main>
     </div>
 
@@ -275,42 +272,12 @@ const userStatsPage = () => {
         '</tr>';
       }
       
-      if (overlap) {
-        const count = overlap.overlap_count || 0;
-        const pct = overlap.overlap_percentage || 0;
-        html += '<tr>' +
-          '<td>Song #1 matches Artist #1</td>' +
-          '<td style="text-align:right">' + count.toLocaleString() + '</td>' +
-          '<td style="text-align:right; color:#5aa9ff">' + pct + '%</td>' +
-        '</tr>';
-      }
       
-      if (top1InTop5 && top1InTop5.percentage !== undefined) {
-        const count = top1InTop5.matching_users || 0;
-        const pct = parseFloat(top1InTop5.percentage || 0).toFixed(2);
-        html += '<tr>' +
-          '<td>Users with #1 artist in global top 5</td>' +
-          '<td style="text-align:right">' + count.toLocaleString() + '</td>' +
-          '<td style="text-align:right; color:#5aa9ff">' + pct + '%</td>' +
-        '</tr>';
-      }
-      
-      if (stability) {
-        const count = stability.stable_users_count || 0;
-        const pct = ((count / TOTAL_USERS) * 100).toFixed(2);
-        html += '<tr>' +
-          '<td>Users with stable top-2 positions (same artist)</td>' +
-          '<td style="text-align:right">' + count.toLocaleString() + '</td>' +
-          '<td style="text-align:right; color:#5aa9ff">' + pct + '%</td>' +
-        '</tr>';
-      }
       
       if (html) {
         tbody.innerHTML = html;
         
-        // Create pie chart for behavior patterns
-        const ctx = $('behaviorPatternsChart').getContext('2d');
-        if (behaviorChart) behaviorChart.destroy();
+        
         
         const data = [];
         const labels = [];
@@ -328,36 +295,7 @@ const userStatsPage = () => {
           labels.push('Stable Top-2');
         }
         
-        behaviorChart = new Chart(ctx, {
-          type: 'doughnut',
-          data: {
-            labels: labels,
-            datasets: [{
-              data: data,
-              backgroundColor: [
-                'rgba(90, 169, 255, 0.8)',
-                'rgba(159, 176, 200, 0.8)',
-                'rgba(255, 153, 102, 0.8)'
-              ],
-              borderColor: [
-                'rgba(90, 169, 255, 1)',
-                'rgba(159, 176, 200, 1)',
-                'rgba(255, 153, 102, 1)'
-              ],
-              borderWidth: 1
-            }]
-          },
-          options: {
-            responsive: true,
-            maintainAspectRatio: true,
-            plugins: {
-              legend: { 
-                display: true,
-                labels: { color: '#9fb0c8' }
-              }
-            }
-          }
-        });
+        
       } else {
         tbody.innerHTML = '<tr><td colspan="3" style="text-align:center; padding:20px; color:#ff6b6b">No data available</td></tr>';
       }

@@ -64,8 +64,8 @@ const home = () => {
     <div class="topbar">
       <div class="brand"><span class="logo" style="background-image:none;background:#5aa9ff;display:flex;align-items:center;justify-content:center;font-size:16px">🎵</span>Music Analytics</div>
       <div class="top-actions">
-        <a href="/home" class="btn">📊 Dashboard</a>
-        <a href="/datasets/new" class="btn">📈 Analytics</a>
+        
+        
       </div>
     </div>
 
@@ -100,43 +100,10 @@ const home = () => {
           </div>
         </div>
 
-        <div class="card" style="padding:24px">
-          <h3>Quick Stats</h3>
-          <div id="quickStats" style="display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:16px">
-            <div style="text-align:center; padding:16px">
-              <div style="font-size:2rem; font-weight:bold; color:#5aa9ff" id="stat-users">500K</div>
-              <div class="muted">Total Users</div>
-            </div>
-            <div style="text-align:center; padding:16px">
-              <div style="font-size:2rem; font-weight:bold; color:#5aa9ff" id="stat-artists">...</div>
-              <div class="muted">Unique Artists</div>
-            </div>
-            <div style="text-align:center; padding:16px">
-              <div style="font-size:2rem; font-weight:bold; color:#5aa9ff" id="stat-songs">...</div>
-              <div class="muted">Unique Songs</div>
-            </div>
-            <div style="text-align:center; padding:16px">
-              <div style="font-size:2rem; font-weight:bold; color:#5aa9ff" id="stat-albums">...</div>
-              <div class="muted">Unique Albums</div>
-            </div>
-          </div>
-        </div>
+        
 
-        <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px; margin-top:20px">
-          <div class="card" style="padding:24px">
-            <h3>Top 5 Artists</h3>
-            <canvas id="topArtistsChart" style="max-height:300px"></canvas>
-          </div>
-          <div class="card" style="padding:24px">
-            <h3>Long Tail Distribution</h3>
-            <canvas id="longTailChart" style="max-height:300px"></canvas>
-          </div>
-        </div>
+        
 
-        <div class="card" style="padding:24px; margin-top:20px">
-          <h3>Items Per User Statistics</h3>
-          <canvas id="userStatsChart" style="max-height:250px"></canvas>
-        </div>
       </main>
     </div>
 
