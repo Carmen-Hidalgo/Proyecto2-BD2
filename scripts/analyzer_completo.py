@@ -338,14 +338,39 @@ save_to_db(overlap_percentage, "artist_track_overlap")
 # ANÁLISIS 14: POSICIÓN PROMEDIO POR ARTISTA
 # ==========================
 
-print("=== Análisis 14: Posición promedio por artista ===")
+# ==========================
+# ANÁLISIS 14: POSICIÓN PROMEDIO POR ARTISTA
+# ==========================
 
+print("=== Análisis 14: Top artistas con posición promedio ===")
+
+# Total de usuarios
+total_users = artists.select("user_id").distinct().count()
+
+# Top artistas por cantidad de usuarios que los tienen en su lista
+top_artists_users = artists.groupBy("artist_name") \
+    .agg(F.countDistinct("user_id").alias("user_count")) \
+    .withColumn(
+        "percentage_users",
+        F.round((F.col("user_count") / total_users) * 100, 2)
+    )
+
+# Posición promedio por artista
 avg_position_by_artist = artists.groupBy("artist_name") \
-    .agg(F.mean("rank").alias("avg_rank")) \
-    .orderBy("avg_rank") \
+    .agg(F.mean("rank").alias("avg_rank"))
+
+# Unir ambas cosas y quedarnos con los top 50 artistas más presentes
+top_50_with_avg = top_artists_users.join(
+        avg_position_by_artist,
+        on="artist_name",
+        how="inner"
+    ) \
+    .orderBy(F.desc("user_count")) \
     .limit(50)
 
-save_to_db(avg_position_by_artist, "avg_artist_position")
+top_50_with_avg.show(50, truncate=False)
+
+save_to_db(top_50_with_avg, "top_50_artists_with_avg_rank")
 
 # ==========================
 # ANÁLISIS 15: FRECUENCIA DE QUE EL #1 ESTÉ EN TOP 5 GLOBAL
