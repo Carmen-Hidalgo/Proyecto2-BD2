@@ -110,11 +110,6 @@ user_top_artist = artists.filter(F.col("rank") == 1) \
 # Guardar la lista completa de artistas con sus frecuencias
 save_to_db(user_top_artist, "users_share_top_artist")
 
-# Mostrar la moda (artista más común)
-mode_data = user_top_artist.first()
-if mode_data:
-    print(f"📊 Moda: {mode_data['top_artist']} con {mode_data['frequency']} usuarios")
-
 # ==========================
 # ANÁLISIS 5: DISTRIBUCIÓN DE MENCIONES POR ARTISTA
 # ==========================
